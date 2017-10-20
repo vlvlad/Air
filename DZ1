@@ -1,0 +1,151 @@
+using ConsoleApp2;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp2
+{
+
+    class Airplane
+    {
+        const int max_AutoPilot_Heigth = 5000;
+        const int min_AutoPilot_Heigth = 2000;
+
+        public int Capacity { get; private set; }
+        public bool AutoPilotOn { get; set; }
+
+        /// <summary>
+        /// Fuel consuption. kg/km
+        /// </summary>
+        public float Consuption { get; private set; }
+
+        public int Altitude { get; private set; }
+
+
+        public static decimal TicketPrice { get; set; }
+        public static int MinAltitudeAuto { get; set; }
+        public static int MaxAltitudeAuto { get; set; }
+
+        public static int Altitude1Auto { get; set; }
+
+
+        private int _altitudeIncrement;
+
+        public Airplane(int capacity, float consuption, int altitudeIncrement)
+        {
+            Altitude = 0;
+            AutoPilotOn = false;
+            Capacity = capacity;
+            Consuption = consuption;
+            _altitudeIncrement = altitudeIncrement;
+        }
+
+        public int Climb(int increment)
+        {
+            if (!AutoPilotOn) return Altitude += increment;
+
+            if (Altitude + increment < MaxAltitudeAuto)
+            {
+                return Altitude += increment;
+            }
+
+            return Altitude = MaxAltitudeAuto;
+        }
+
+        public int Down(int increment)
+        {
+            if (AutoPilotOn)
+            {
+                if (Altitude - increment > MinAltitudeAuto)
+                {
+                    return Altitude -= increment;
+                }
+                if (Altitude < MinAltitudeAuto) return Altitude;
+                return Altitude = MinAltitudeAuto;
+            }
+
+            if (Altitude - increment < 0) return Altitude = 0;
+            return Altitude -= increment;
+        }
+
+        public int SetAltitude(int targetAlitude)
+        {
+            if (Altitude == targetAlitude)
+            {
+                if (Altitude > Altitude1Auto)
+                {
+                    return Altitude;
+                }
+
+
+
+                ;
+
+            }
+
+
+            throw new NotImplementedException();
+        }
+
+        //______________________________________________________________________________________________________
+        public int Up(int increment)
+        {
+            if (AutoPilotOn)
+            {
+                if (Altitude + increment < MaxAltitudeAuto)
+                {
+                    return Altitude += increment;
+                }
+                if (Altitude > MaxAltitudeAuto) return Altitude;
+                return Altitude = MaxAltitudeAuto;
+            }
+
+            if (Altitude + increment > 10000) return Altitude = 10000;
+            return Altitude += increment;
+        }
+
+        //
+
+        public void  SetUserAltitude(int heigth)
+        {
+            while (heigth < this.Altitude)
+            {
+                heigth = this.Up(heigth);
+            }
+
+
+
+        }
+//_____________________________________________________________________________________________________________
+
+    }
+
+
+}
+/*
+    от 2 до 5  
+     */
+  
+
+
+
+class Program
+    {
+        static void Main(string[] args)
+        {
+        Console.WriteLine("App started");
+
+        Airplane.MaxAltitudeAuto = 10000;
+        Airplane.MinAltitudeAuto = 2000;
+        Airplane.Altitude1Auto = 5000;
+
+        Airplane airplane = new Airplane(140, 2.26F, 100);
+        //
+        Console.WriteLine(airplane.Altitude);
+
+        Console.ReadLine();
+    }
+       
+}
